@@ -4,12 +4,15 @@ import models.Election;
 import models.KeyPair;
 import models.Voter;
 
-public class Registrar {
-    public Voter registerVoter(String id, Election election, ElectionAdmin admin) {
-        KeyGenerator keyGenerator = new KeyGenerator();
-        KeyPair votersKeyPair = keyGenerator.sKeyGen(election);
+import java.security.NoSuchAlgorithmException;
 
-        Voter voter = new Voter(id, votersKeyPair);
+public class Registrar {
+    public Voter registerVoter(String id, Election election, ElectionAdmin admin) throws NoSuchAlgorithmException {
+        KeyGenerator keyGenerator = new KeyGenerator();
+        KeyPair votersKeyPair = keyGenerator.eKeyGen(election);
+        java.security.KeyPair signingKeyPair = keyGenerator.sKeyGen();
+
+        Voter voter = new Voter(id, votersKeyPair, signingKeyPair, true, false);
         admin.addNewVoter(voter);
         return voter;
 
