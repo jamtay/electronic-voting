@@ -4,8 +4,13 @@ import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.tally;
 import views.html.index;
+import views.html.pending;
+import views.html.register;
+import views.html.voter;
+import views.html.progress;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -16,12 +21,13 @@ import java.util.Optional;
 
 public class ElectionScheme extends Controller {
 
-    private static Election election;
+    private static Optional<Election> election = Optional.empty();
     private static ElectionAdmin admin;
     private static BallotBox ballotBox;
     private static Registrar registrar;
     private static Trustee trustee;
 
+    @Security.Authenticated(Secured.class)
     public static Result setup() {
         admin = new ElectionAdmin();
         election = admin.setup();
@@ -29,22 +35,55 @@ public class ElectionScheme extends Controller {
         registrar = new Registrar();
         trustee = new Trustee();
         flash("success", "Election setup");
-        return redirect(routes.Application.home());
+        return redirect(routes.ElectionScheme.electionInProgress());
     }
 
+    public static Optional<Election> getElection() {
+        return election;
+    }
+
+    public static ElectionAdmin getElectionAdmin() {
+        return admin;
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result pending() {
+        return ok(pending.render("Pending", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
+    }
+
+    @Security.Authenticated(Secured.class)
     public static Result register() {
+        return ok(register.render("Register", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result postRegister() {
         String email = session("email");
         try {
-            Voter voter = registrar.registerVoter(email, election, admin);
+            if (election.isPresent()) {
+                Voter voter = registrar.registerVoter(email, election.get(), admin);
+            } else {
+                return redirect(routes.Application.index());
+            }
         } catch (NoSuchAlgorithmException e) {
             // This error should never occur
             flash("error", "Invalid reg");
         }
         flash("success", "Registered");
-        return redirect(routes.Application.home());
+
+        return redirect(routes.ElectionScheme.vote());
+
     }
 
+
+    @Security.Authenticated(Secured.class)
     public static Result vote() {
+        Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
+        return ok(voter.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result postVote() {
         Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
         if (formData.hasErrors()) {
             return badRequest(views.html.voter.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
@@ -52,7 +91,10 @@ public class ElectionScheme extends Controller {
             Vote vote = formData.get();
             String email = session("email");
             Optional<Voter> voterById = admin.getVoterById(email);
-            voterById.ifPresent(voter -> {
+
+            if (voterById.isPresent() && election.isPresent()) {
+                Voter voter = voterById.get();
+
                 try {
                     Ballot ballot = vote("1", voter);
                     Ballot negativeBallot = vote("0", voter);
@@ -71,51 +113,67 @@ public class ElectionScheme extends Controller {
                     // This should never happen
                     flash("error", "invalid vote");
                 }
+                flash("success", "Voted");
+                return redirect(routes.ElectionScheme.electionInProgress());
 
-
-            });
-            flash("success", "Voted");
-            return redirect(routes.Application.home());
+            } else {
+                return redirect(routes.Application.index());
+            }
 
         }
 
     }
 
+    @Security.Authenticated(Secured.class)
     public static Result tallyResults() {
-        BulletinBoard bulletinBoard1 = ballotBox.getBulletinBoard1();
-        BulletinBoard bulletinBoard2 = ballotBox.getBulletinBoard2();
-        BigInteger tally1 = trustee.tally(bulletinBoard1, election);
-        BigInteger tally2 = trustee.tally(bulletinBoard2, election);
-        election.setEnded(true);
-        String displayValue1 = String.valueOf(tally1);
-        String displayValue2 = String.valueOf(tally2);
-        return ok(tally.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), displayValue1, displayValue2));
+
+        if (!election.isPresent()) {
+            return redirect(routes.Application.index());
+        } else {
+            BulletinBoard bulletinBoard1 = ballotBox.getBulletinBoard1();
+            BulletinBoard bulletinBoard2 = ballotBox.getBulletinBoard2();
+            Election currentElection = election.get();
+            BigInteger tally1 = trustee.tally(bulletinBoard1, currentElection);
+            BigInteger tally2 = trustee.tally(bulletinBoard2, currentElection);
+            currentElection.setEnded(true);
+            String displayValue1 = String.valueOf(tally1);
+            String displayValue2 = String.valueOf(tally2);
+            return ok(tally.render("Tally", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), displayValue1, displayValue2));
+        }
     }
 
-    // TODO: NOT working
+    @Security.Authenticated(Secured.class)
     public static Result verifyVote() {
         String email = session("email");
         Optional<Voter> voterById = admin.getVoterById(email);
 
         try {
-            if (Crypto.verifyVote(voterById.get(), ballotBox)) {
-                flash("Success");
-                return ok(index.render("E-Voting", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
-            } else
+            if (voterById.isPresent()) {
+                if (Crypto.verifyVote(voterById.get(), ballotBox)) {
+                    flash("Success");
+                    return redirect(routes.ElectionScheme.tallyResults());
+                } else
+                    return ok("Not found");
+            } else {
                 return ok("Not found");
+            }
         } catch (UnsupportedEncodingException | SignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             flash("Error", "Whilst verifying");
             return badRequest("Error");
         }
-
-
     }
 
     private static Ballot vote(String vote, Voter voter) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException, UnsupportedEncodingException {
         BigInteger voteChoice = new BigInteger(vote);
-        BigInteger plaintext = election.getGenerator().modPow(voteChoice, election.getPrime());
 
-        return Crypto.encrypt(plaintext, voter, election);
+        // This is safe as election presence is checked above
+        BigInteger plaintext = election.get().getGenerator().modPow(voteChoice, election.get().getPrime());
+        return Crypto.encrypt(plaintext, voter, election.get());
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result electionInProgress() {
+        return ok(progress.render("Progress", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
     }
 }

@@ -1,19 +1,12 @@
 @(page: String, isLoggedIn: Boolean, user: User, voteForm: Form[Vote])
 
 @main(page, isLoggedIn, user) {
-    <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.register()">Register</a>
-    </br>
-    <p>This would be greyed out depending on the voter status</p>
-    </br>
-
     <div class="container">
-        @helper.form(action = routes.ElectionScheme.vote()) {
+        @helper.form(action = routes.ElectionScheme.postVote()) {
             @helper.inputText(voteForm("voteChoice"))
             <input class="btn btn-lg btn-success btn-block" type="submit" value="Cast Vote">
         }
     </div>
     </br>
-
-    <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.verifyVote()">Verify vote</a>
 }
 

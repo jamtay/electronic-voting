@@ -1,0 +1,9 @@
+@(page: String, isLoggedIn: Boolean, user: User)
+
+@main(page, isLoggedIn, user) {
+    <h3>Register for the election</h3>
+
+    @helper.form(action = routes.ElectionScheme.postRegister()) {
+        <input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
+    }
+}

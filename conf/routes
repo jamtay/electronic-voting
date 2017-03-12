@@ -4,12 +4,20 @@
 GET     /                           controllers.Application.index()
 GET     /login                      controllers.Application.login()
 POST    /login                      controllers.Application.postLogin()
+GET     /pending-election           controllers.ElectionScheme.pending()
+GET     /register                   controllers.ElectionScheme.register()
+POST    /register                   controllers.ElectionScheme.postRegister()
+GET     /vote                       controllers.ElectionScheme.vote()
+POST    /vote                       controllers.ElectionScheme.postVote()
+GET     /tally                      controllers.ElectionScheme.tallyResults()
+GET     /verify-vote                controllers.ElectionScheme.verifyVote()
+GET     /election-in-progress       controllers.ElectionScheme.electionInProgress()
+
 GET     /home                       controllers.Application.home()
 GET     /setup                      controllers.ElectionScheme.setup()
 GET     /register                   controllers.ElectionScheme.register()
-POST    /vote                       controllers.ElectionScheme.vote()
-GET     /tally                      controllers.ElectionScheme.tallyResults()
-GET     /verify-vote                controllers.ElectionScheme.verifyVote()
+
+
 GET     /logout                     controllers.Application.logout()
 
 # Map static resources from the /public folder to the /assets URL path

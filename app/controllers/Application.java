@@ -1,7 +1,9 @@
 package controllers;
 
 import models.Election;
+import models.User;
 import models.Vote;
+import models.Voter;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -11,6 +13,8 @@ import views.html.voter;
 import views.html.login;
 import views.formdata.LoginFormData;
 import play.mvc.Security;
+
+import java.util.Optional;
 
 public class Application extends Controller {
 
@@ -49,10 +53,67 @@ public class Application extends Controller {
     else {
       session().clear();
       session("email", formData.get().email);
+      return directUser();
+    }
+  }
+
+  private static Result directUser() {
+    User user = Secured.getUserInfo(ctx());
+    if (user.getType().equals("admin")) {
+      return directAdminUser();
+    } else {
+      return directVoter();
+    }
+  }
+
+  private static Result directAdminUser() {
+    Optional<Election> possibleElection = ElectionScheme.getElection();
+    if (possibleElection.isPresent()) {
+      if (possibleElection.get().isEnded()) {
+        return redirect(routes.ElectionScheme.tallyResults());
+      } else {
+        return redirect(routes.ElectionScheme.electionInProgress());
+      }
+    } else {
       return redirect(routes.Application.home());
     }
   }
-  
+
+  private static Result directVoter() {
+    Optional<Election> possibleElection = ElectionScheme.getElection();
+    ElectionAdmin electionAdmin = ElectionScheme.getElectionAdmin();
+    String id = session("email");
+    Optional<Voter> loggedInVoter = Optional.empty();
+    if (possibleElection.isPresent()) {
+      loggedInVoter = electionAdmin.getVoterById(id);
+    }
+
+    if (!possibleElection.isPresent()) {
+      return redirect(routes.ElectionScheme.pending());
+    } else {
+      if (possibleElection.isPresent()) {
+        if (!possibleElection.get().isEnded()) {
+          //if (loggedInVoter != null) {
+            if (loggedInVoter.isPresent()) {
+              if (loggedInVoter.get().isVoted()) {
+                return redirect(routes.ElectionScheme.electionInProgress());
+              } else {
+                return redirect(routes.ElectionScheme.vote());
+              }
+            } else {
+              return redirect(routes.ElectionScheme.register());
+            }
+          //}
+        } else {
+          return redirect(routes.ElectionScheme.tallyResults());
+        }
+      }
+    }
+
+    return redirect(routes.Application.index());
+
+  }
+
   /**
    * Logs out and returns user to the index page.
    * @return A redirect to the index page.
