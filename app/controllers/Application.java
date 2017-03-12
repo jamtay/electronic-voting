@@ -49,8 +49,7 @@ public class Application extends Controller {
     if (formData.hasErrors()) {
       flash("error", "Login credentials not valid.");
       return badRequest(login.render("Login", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
-    }
-    else {
+    } else {
       session().clear();
       session("email", formData.get().email);
       return directUser();
@@ -93,7 +92,6 @@ public class Application extends Controller {
     } else {
       if (possibleElection.isPresent()) {
         if (!possibleElection.get().isEnded()) {
-          //if (loggedInVoter != null) {
             if (loggedInVoter.isPresent()) {
               if (loggedInVoter.get().isVoted()) {
                 return redirect(routes.ElectionScheme.electionInProgress());
@@ -103,13 +101,13 @@ public class Application extends Controller {
             } else {
               return redirect(routes.ElectionScheme.register());
             }
-          //}
         } else {
           return redirect(routes.ElectionScheme.tallyResults());
         }
       }
     }
 
+    flash("error", "Something went wrong");
     return redirect(routes.Application.index());
 
   }
@@ -121,6 +119,7 @@ public class Application extends Controller {
   @Security.Authenticated(Secured.class)
   public static Result logout() {
     session().clear();
+    flash("logout", "Yout have been logged out");
     return redirect(routes.Application.index());
   }
   

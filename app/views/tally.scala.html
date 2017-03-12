@@ -5,7 +5,7 @@
     <h3>The tally for 1 is @tally2</h3>
 
     @if(user.getType() == "admin") {
-        <a>This would be restart election button</a>
+        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.restartElection()">Start new election</a>
     } else {
         <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.verifyVote()">Verify vote</a>
     }

@@ -5,6 +5,11 @@
     @if(user.getType() == "admin") {
         <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
 
+    @if(flash.containsKey("success")) {
+        <div id="setup-message" class="text-success">
+            @flash.get("success")
+        </div>
+    }
         <div>
             <h1>This is some stats regarding the election, such as: </h1>
             <ul>
