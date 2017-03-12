@@ -12,10 +12,12 @@ POST    /vote                       controllers.ElectionScheme.postVote()
 GET     /tally                      controllers.ElectionScheme.tallyResults()
 GET     /verify-vote                controllers.ElectionScheme.verifyVote()
 GET     /election-in-progress       controllers.ElectionScheme.electionInProgress()
+GET     /restart                    controllers.ElectionScheme.restartElection()
 
 GET     /home                       controllers.Application.home()
 GET     /setup                      controllers.ElectionScheme.setup()
 GET     /register                   controllers.ElectionScheme.register()
+
 
 
 GET     /logout                     controllers.Application.logout()
