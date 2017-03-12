@@ -3,6 +3,12 @@
 @main(page, isLoggedIn, user) {
     <h3>Register for the election</h3>
 
+    @if(flash.containsKey("error")) {
+        <div id="error-message" class="text-danger">
+            @flash.get("error")
+        </div>
+    }
+
     @helper.form(action = routes.ElectionScheme.postRegister()) {
         <input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
     }

@@ -2,6 +2,18 @@
 
 @main(page, isLoggedIn, user) {
     <div class="container">
+        @if(flash.containsKey("success")) {
+            <div id="success-message" class="text-success">
+            @flash.get("success")
+            </div>
+        }
+
+        @if(flash.containsKey("error")) {
+            <div id="error-message" class="text-danger">
+            @flash.get("error")
+            </div>
+        }
+
         @helper.form(action = routes.ElectionScheme.postVote()) {
             @helper.inputText(voteForm("voteChoice"))
             <input class="btn btn-lg btn-success btn-block" type="submit" value="Cast Vote">

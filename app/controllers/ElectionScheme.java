@@ -38,6 +38,7 @@ public class ElectionScheme extends Controller {
             flash("success", "Election setup");
             return redirect(routes.ElectionScheme.electionInProgress());
         } else {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
 
@@ -54,6 +55,7 @@ public class ElectionScheme extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result pending() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
         return ok(pending.render("Pending", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
@@ -62,6 +64,7 @@ public class ElectionScheme extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result register() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
         return ok(register.render("Register", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
@@ -71,6 +74,7 @@ public class ElectionScheme extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result postRegister() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
 
@@ -79,13 +83,15 @@ public class ElectionScheme extends Controller {
             if (election.isPresent()) {
                 Voter voter = registrar.registerVoter(email, election.get(), admin);
             } else {
+                flash("error", "No Election setup");
                 return redirect(routes.Application.index());
             }
         } catch (NoSuchAlgorithmException e) {
             // This error should never occur
-            flash("error", "Invalid reg");
+            flash("error", "Invalid registration");
+            return redirect(routes.ElectionScheme.register());
         }
-        flash("success", "Registered");
+        flash("success", "Successfully registered");
         return redirect(routes.ElectionScheme.vote());
 
 
@@ -95,6 +101,7 @@ public class ElectionScheme extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result vote() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
         Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
@@ -105,12 +112,14 @@ public class ElectionScheme extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result postVote() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
 
         Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
         if (formData.hasErrors()) {
-            return badRequest(views.html.voter.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+            flash("error", "Error in voting booth selection");
+            return badRequest(views.html.voter.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
         } else {
             Vote vote = formData.get();
             String email = session("email");
@@ -136,11 +145,13 @@ public class ElectionScheme extends Controller {
                 } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | UnsupportedEncodingException e) {
                     // This should never happen
                     flash("error", "invalid vote");
+                    return badRequest(views.html.voter.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
                 }
-                flash("success", "Voted");
+                flash("success", "Successfully voted");
                 return redirect(routes.ElectionScheme.electionInProgress());
 
             } else {
+                flash("error", "Attempting to access incorrect page");
                 return redirect(routes.Application.index());
             }
 
@@ -152,6 +163,7 @@ public class ElectionScheme extends Controller {
     public static Result tallyResults() {
 
         if (!election.isPresent()) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         } else {
             BulletinBoard bulletinBoard1 = ballotBox.getBulletinBoard1();
@@ -166,9 +178,11 @@ public class ElectionScheme extends Controller {
         }
     }
 
+    // TODO: Clean this UI
     @Security.Authenticated(Secured.class)
     public static Result verifyVote() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
 
@@ -186,7 +200,6 @@ public class ElectionScheme extends Controller {
                 return ok("Not found");
             }
         } catch (UnsupportedEncodingException | SignatureException | InvalidKeyException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
             flash("Error", "Whilst verifying");
             return badRequest("Error");
         }
@@ -210,6 +223,7 @@ public class ElectionScheme extends Controller {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
             return redirect(routes.ElectionScheme.setup());
         } else {
+            flash("error", "Attempting to access incorrect page");
             return redirect(routes.Application.index());
         }
     }
