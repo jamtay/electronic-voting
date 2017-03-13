@@ -1,0 +1,22 @@
+@(voteForm: Form[Vote],
+candidates:      List[String])
+
+@import views.html.bootstrap3._
+
+<fieldset>
+    <div id="legend">
+        <legend>Voting Booth</legend>
+    </div>
+
+    <!-- Grade Level -->
+    @radiobuttons(voteForm("candidates"),
+    label = "Candidates",
+    buttonNameList = candidates,
+    help = "Select your voting choice. (required)")
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Vote</button>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,34 @@
+
+@(page: String, isLoggedIn: Boolean, user: User, voteForm: Form[Vote], candidates: List[String])
+@import helper._
+
+@main(page, isLoggedIn, user) {
+
+<head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
+</head>
+
+<div class="container">
+
+    @if(flash.containsKey("success")) {
+    <div class="alert alert-success"
+    <strong>Success</strong> @flash.get("success")
+</div>
+}
+
+@if(flash.containsKey("error")) {
+<div class="alert alert-danger"
+<strong>Error!</strong> @flash.get("error")
+</div>
+}
+
+<div class="container">
+    <div class="well">
+        @form(routes.ElectionScheme.postVote(), 'class -> "form-horizontal") {
+            @fieldset(voteForm, candidates)
+        }
+    </div>
+</div>
+}
+

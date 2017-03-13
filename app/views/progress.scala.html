@@ -1,27 +1,40 @@
 @(page: String, isLoggedIn: Boolean, user: User)
 
 @main(page, isLoggedIn, user) {
+<head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+    <script src="@routes.Assets.at("javascripts/loading.js")"></script>
+</head>
 
     @if(user.getType() == "admin") {
-        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
 
     @if(flash.containsKey("success")) {
-        <div id="setup-message" class="text-success">
-            @flash.get("success")
-        </div>
+        <div class="alert alert-success"
+            <strong>Success!</strong> @flash.get("success")
+         </div>
     }
+    </br>
+        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
+
+
         <div>
-            <h1>This is some stats regarding the election, such as: </h1>
+            <h1 class="background-text">This is some stats regarding the election, such as: </h1>
             <ul>
-                <li>Number of votes so far</li>
-                <li>Time election has been open</li>
+                <li class="background-text">Number of votes so far</li>
+                <li class="background-text">Time election has been open</li>
             </ul>
-            <p>Could put this in a dashboard style page.  Find template online</p>
-            <p>Will grey out button that is not selectable</p>
-            <p>Start election will take admin to another page where they are able to add candidates and see their keypair etc</p>
+            <p class="background-text">Could put this in a dashboard style page.  Find template online</p>
+            <p class="background-text">Will grey out button that is not selectable</p>
+            <p class="background-text">Start election will take admin to another page where they are able to add candidates and see their keypair etc</p>
         </div>
     } else {
-        <p>ELECTION IS IN PROGRESS</p>
+
+        <h1 class="background-text">Election in progress</h1>
+        <div class="progress" width="20">
+            <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            <h4 class="modal-title" id="myModalLabel"><p id="demo"></p>%</h4>
+        </div>
+
     }
 
 }
