@@ -1,7 +1,10 @@
 @(page: String, isLoggedIn: Boolean, user: User)
 
 @main(page, isLoggedIn, user) {
-    <h3>The election is not in progress yet</h3>
-    <p>The Admin needs to setup an election </p>
 
+<head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+</head>
+    <h3 class="background-text">The election is not in progress yet</h3>
+    <p class="background-text">The Admin needs to setup an election </p>
 }

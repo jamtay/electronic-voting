@@ -6,6 +6,7 @@
 
 <head>
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
 </head>
 
     <div class="container">
@@ -33,7 +34,7 @@
                 @form(action = routes.ElectionScheme.postVote()) {
 
                 @inputRadioGroup(
-                voteForm("Candidates"),
+                voteForm("voteChoice"),
                 options = Seq("0"->"Candidate 0","1"->"Candidate 1"))
 
                 <input class="btn btn-success btn-block btn-info" type="submit" value="Cast Vote">
@@ -42,40 +43,5 @@
         </div>
     </div>
 </div>
-
-<style>
-    body {
-        margin-top: 20px;
-    }
-
-    .panel-body:not(.two-col) {
-        padding: 0px;
-    }
-
-    .glyphicon {
-        margin-right: 5px;
-    }
-
-    .glyphicon-new-window {
-        margin-left: 5px;
-    }
-
-    .panel-body .radio, .panel-body .checkbox {
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-
-    .panel-body .list-group {
-        margin-bottom: 0;
-    }
-
-    .margin-bottom-none {
-        margin-bottom: 0;
-    }
-
-    .panel-body .radio label, .panel-body .checkbox label {
-        display: block;
-    }
-</style>
 }
 
