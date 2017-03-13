@@ -10,6 +10,7 @@ import views.html.index;
 import views.html.pending;
 import views.html.register;
 import views.html.voter;
+import views.html.vote;
 import views.html.progress;
 
 import java.io.UnsupportedEncodingException;
@@ -105,7 +106,8 @@ public class ElectionScheme extends Controller {
             return redirect(routes.Application.index());
         }
         Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
-        return ok(voter.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+        formData.discardErrors();
+        return ok(vote.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData, Candidates.getCandidateNames()));
 
     }
 
@@ -119,9 +121,12 @@ public class ElectionScheme extends Controller {
         Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
         if (formData.hasErrors()) {
             flash("error", "Error in voting booth selection");
-            return badRequest(views.html.voter.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+            return badRequest(views.html.vote.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData, Candidates.getCandidateNames()));
         } else {
-            Vote vote = formData.get();
+            Vote votersChoice = new Vote();
+            votersChoice.candidates = formData.get().candidates;
+
+            //Vote vote = formData.get();
             String email = session("email");
             Optional<Voter> voterById = admin.getVoterById(email);
 
@@ -132,20 +137,23 @@ public class ElectionScheme extends Controller {
                     Ballot ballot = vote("1", voter);
                     Ballot negativeBallot = vote("0", voter);
 
-                    if (vote.getVoteChoice().equals("0")) {
+                    if (votersChoice.candidates.equals("Candidate0")) {
                         // Vote for BB1
                         ballotBox.appendBB1(ballot);
                         ballotBox.appendBB2(negativeBallot);
-                    } else {
+                    } else if (votersChoice.candidates.equals("Candidate1")){
                         // else vote for BB2
                         ballotBox.appendBB2(ballot);
                         ballotBox.appendBB1(negativeBallot);
+                    } else {
+                        flash("error", "invalid vote");
+                        return badRequest(views.html.vote.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData, Candidates.getCandidateNames()));
                     }
                     voter.setVoted(true);
                 } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | UnsupportedEncodingException e) {
                     // This should never happen
                     flash("error", "invalid vote");
-                    return badRequest(views.html.voter.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+                    return badRequest(views.html.vote.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData, Candidates.getCandidateNames()));
                 }
                 flash("success", "Successfully voted");
                 return redirect(routes.ElectionScheme.electionInProgress());
