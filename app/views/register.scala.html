@@ -24,9 +24,9 @@
     </div>
 </div>
 @if(flash.containsKey("error")) {
-<div id="error-message" class="text-danger">
-    @flash.get("error")
-</div>
+    <div class="alert alert-danger"
+        <strong>Error!</strong> @flash.get("error")
+    </div>
 }
 
 }

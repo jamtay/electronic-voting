@@ -9,14 +9,15 @@
        </div>
      </div>
        @if(flash.containsKey("error")) {
-        <div id="error-message" class="text-danger">
-           @flash.get("error")
-        </div>
+            <div class="alert alert-danger"
+                <strong>Error!</strong> @flash.get("error")
+            </div>
        }
+
        @if(flash.containsKey("logout")) {
-       <div id="logout-message" class="text-warning">
-           @flash.get("logout")
-       </div>
+            <div class="alert alert-warning"
+                <strong></strong> @flash.get("logout")
+            </div>
        }
    </div>
 }

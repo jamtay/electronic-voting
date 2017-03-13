@@ -10,15 +10,16 @@
 </head>
 
     <div class="container">
+
         @if(flash.containsKey("success")) {
-            <div id="success-message" class="text-success">
-            @flash.get("success")
+            <div class="alert alert-success"
+                <strong>Success</strong> @flash.get("success")
             </div>
         }
 
         @if(flash.containsKey("error")) {
-            <div id="error-message" class="text-danger">
-            @flash.get("error")
+            <div class="alert alert-danger"
+                <strong>Error!</strong> @flash.get("error")
             </div>
         }
 
