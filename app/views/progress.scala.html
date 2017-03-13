@@ -7,22 +7,25 @@
 </head>
 
     @if(user.getType() == "admin") {
-        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
 
     @if(flash.containsKey("success")) {
         <div class="alert alert-success"
             <strong>Success!</strong> @flash.get("success")
          </div>
     }
+    </br>
+        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
+
+
         <div>
-            <h1>This is some stats regarding the election, such as: </h1>
+            <h1 class="background-text">This is some stats regarding the election, such as: </h1>
             <ul>
-                <li>Number of votes so far</li>
-                <li>Time election has been open</li>
+                <li class="background-text">Number of votes so far</li>
+                <li class="background-text">Time election has been open</li>
             </ul>
-            <p>Could put this in a dashboard style page.  Find template online</p>
-            <p>Will grey out button that is not selectable</p>
-            <p>Start election will take admin to another page where they are able to add candidates and see their keypair etc</p>
+            <p class="background-text">Could put this in a dashboard style page.  Find template online</p>
+            <p class="background-text">Will grey out button that is not selectable</p>
+            <p class="background-text">Start election will take admin to another page where they are able to add candidates and see their keypair etc</p>
         </div>
     } else {
 

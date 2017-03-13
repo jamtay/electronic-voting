@@ -1,11 +1,15 @@
 @(page: String, isLoggedIn: Boolean, user: User, tally1: String, tally2: String)
 
 @main(page, isLoggedIn, user) {
-    <h3>The tally for 0 is @tally1</h3>
-    <h3>The tally for 1 is @tally2</h3>
+<head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+</head>
+
+    <h3 class="background-text">The tally for 0 is @tally1</h3>
+    <h3 class="background-text">The tally for 1 is @tally2</h3>
 
     @if(user.getType() == "admin") {
-        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.restartElection()">Start new election</a>
+        <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.restartElection()">Start new election</a>
     } else {
         <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.verifyVote()">Verify vote</a>
     }
