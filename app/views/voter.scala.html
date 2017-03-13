@@ -1,6 +1,13 @@
+
 @(page: String, isLoggedIn: Boolean, user: User, voteForm: Form[Vote])
+@import helper._
 
 @main(page, isLoggedIn, user) {
+
+<head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+</head>
+
     <div class="container">
         @if(flash.containsKey("success")) {
             <div id="success-message" class="text-success">
@@ -14,11 +21,61 @@
             </div>
         }
 
-        @helper.form(action = routes.ElectionScheme.postVote()) {
-            @helper.inputText(voteForm("voteChoice"))
-            <input class="btn btn-lg btn-success btn-block" type="submit" value="Cast Vote">
-        }
+<div class="container">
+    <div class="col-md-4"></div>
+
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="fa fa-line-chart"></span> Please cast your vote</h3>
+            </div>
+            <div class="panel-body">
+                @form(action = routes.ElectionScheme.postVote()) {
+
+                @inputRadioGroup(
+                voteForm("Candidates"),
+                options = Seq("0"->"Candidate 0","1"->"Candidate 1"))
+
+                <input class="btn btn-success btn-block btn-info" type="submit" value="Cast Vote">
+                }
+            </div>
+        </div>
     </div>
-    </br>
+</div>
+
+<style>
+    body {
+        margin-top: 20px;
+    }
+
+    .panel-body:not(.two-col) {
+        padding: 0px;
+    }
+
+    .glyphicon {
+        margin-right: 5px;
+    }
+
+    .glyphicon-new-window {
+        margin-left: 5px;
+    }
+
+    .panel-body .radio, .panel-body .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .panel-body .list-group {
+        margin-bottom: 0;
+    }
+
+    .margin-bottom-none {
+        margin-bottom: 0;
+    }
+
+    .panel-body .radio label, .panel-body .checkbox label {
+        display: block;
+    }
+</style>
 }
 
