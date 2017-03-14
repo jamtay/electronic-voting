@@ -8,6 +8,10 @@
     <h3 class="background-text">The tally for 0 is @tally1</h3>
     <h3 class="background-text">The tally for 1 is @tally2</h3>
 
+    </br>
+    </br>
+    <h2 class="background-text">Explain here how the tally is made!</h2>
+
     @if(user.getType() == "admin") {
         <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.restartElection()">Start new election</a>
     } else {
