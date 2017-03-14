@@ -3,9 +3,10 @@
 @import bootstrap3._
 
 @main(page, isLoggedIn, user) {
-<head>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-</head>
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+    </head>
+
    <div class="container">
      @loginform(routes.Application.postLogin(), loginForm("email"), loginForm("password"))
    </div>

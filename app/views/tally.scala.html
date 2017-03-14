@@ -1,9 +1,9 @@
 @(page: String, isLoggedIn: Boolean, user: User, tally1: String, tally2: String)
 
 @main(page, isLoggedIn, user) {
-<head>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-</head>
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+    </head>
 
     <h3 class="background-text">The tally for 0 is @tally1</h3>
     <h3 class="background-text">The tally for 1 is @tally2</h3>

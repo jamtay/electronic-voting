@@ -120,7 +120,7 @@ public class Application extends Controller {
   @Security.Authenticated(Secured.class)
   public static Result logout() {
     session().clear();
-    flash("logout", "Yout have been logged out");
+    flash("logout", "You have been logged out");
     return redirect(routes.Application.index());
   }
   

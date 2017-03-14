@@ -4,45 +4,44 @@
 
 @main(page, isLoggedIn, user) {
 
-<head>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
-</head>
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
+    </head>
 
     <div class="container">
 
         @if(flash.containsKey("success")) {
-            <div class="alert alert-success"
+            <div class="alert alert-success">
                 <strong>Success</strong> @flash.get("success")
             </div>
         }
 
         @if(flash.containsKey("error")) {
-            <div class="alert alert-danger"
+            <div class="alert alert-danger">
                 <strong>Error!</strong> @flash.get("error")
             </div>
         }
 
-<div class="container">
-    <div class="col-md-4"></div>
+        <div class="container">
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="fa fa-line-chart"></span> Please cast your vote</h3>
+                    </div>
+                    <div class="panel-body">
+                        @form(action = routes.ElectionScheme.postVote()) {
 
-    <div class="col-md-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="fa fa-line-chart"></span> Please cast your vote</h3>
-            </div>
-            <div class="panel-body">
-                @form(action = routes.ElectionScheme.postVote()) {
+                            @inputRadioGroup(
+                            voteForm("voteChoice"),
+                            options = Seq("0"->"Candidate 0","1"->"Candidate 1"))
 
-                @inputRadioGroup(
-                voteForm("voteChoice"),
-                options = Seq("0"->"Candidate 0","1"->"Candidate 1"))
-
-                <input class="btn btn-success btn-block btn-info" type="submit" value="Cast Vote">
-                }
+                            <input class="btn btn-success btn-block btn-info" type="submit" value="Cast Vote">
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 }
 

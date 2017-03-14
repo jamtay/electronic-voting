@@ -1,21 +1,20 @@
 @(page: String, isLoggedIn: Boolean, user: User)
 
 @main(page, isLoggedIn, user) {
-<head>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-    <script src="@routes.Assets.at("javascripts/loading.js")"></script>
-</head>
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+        <script src="@routes.Assets.at("javascripts/loading.js")"></script>
+    </head>
 
     @if(user.getType() == "admin") {
 
-    @if(flash.containsKey("success")) {
-        <div class="alert alert-success"
-            <strong>Success!</strong> @flash.get("success")
-         </div>
-    }
-    </br>
+        @if(flash.containsKey("success")) {
+            <div class="alert alert-success"
+                <strong>Success!</strong> @flash.get("success")
+            </div>
+        }
+        </br>
         <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
-
 
         <div>
             <h1 class="background-text">This is some stats regarding the election, such as: </h1>
@@ -38,8 +37,6 @@
             <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
             <h4 class="modal-title" id="myModalLabel"><p id="demo"></p>%</h4>
         </div>
-
-
     }
 
 }

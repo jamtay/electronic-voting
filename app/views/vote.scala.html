@@ -4,33 +4,33 @@
 
 @main(page, isLoggedIn, user) {
 
-<head>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
-</head>
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
+    </head>
 
-@if(flash.containsKey("success")) {
-    <div class="alert alert-success"
-        <strong>Success</strong> @flash.get("success")
+    @if(flash.containsKey("success")) {
+        <div class="alert alert-success"
+            <strong>Success</strong> @flash.get("success")
+        </div>
+    }
+
+    @if(flash.containsKey("error")) {
+        <div class="alert alert-danger"
+            <strong>Error!</strong> @flash.get("error")
+        </div>
+    }
+
+    <div class="container">
+        <div class="well">
+            @form(routes.ElectionScheme.postVote(), 'class -> "form-horizontal") {
+                @fieldset(voteForm, candidates)
+            }
+        </div>
     </div>
-}
 
-@if(flash.containsKey("error")) {
-    <div class="alert alert-danger"
-        <strong>Error!</strong> @flash.get("error")
-    </div>
-}
-
-<div class="container">
-    <div class="well">
-        @form(routes.ElectionScheme.postVote(), 'class -> "form-horizontal") {
-            @fieldset(voteForm, candidates)
-        }
-    </div>
-</div>
-
-</br>
-</br>
-<h2 class="background-text">Explain here how a vote is cast!</h2>
+    </br>
+    </br>
+    <h2 class="background-text">Explain here how a vote is cast!</h2>
 }
 
