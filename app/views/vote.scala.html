@@ -9,18 +9,16 @@
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
 </head>
 
-<div class="container">
-
-    @if(flash.containsKey("success")) {
+@if(flash.containsKey("success")) {
     <div class="alert alert-success"
-    <strong>Success</strong> @flash.get("success")
-</div>
+        <strong>Success</strong> @flash.get("success")
+    </div>
 }
 
 @if(flash.containsKey("error")) {
-<div class="alert alert-danger"
-<strong>Error!</strong> @flash.get("error")
-</div>
+    <div class="alert alert-danger"
+        <strong>Error!</strong> @flash.get("error")
+    </div>
 }
 
 <div class="container">
@@ -30,5 +28,9 @@
         }
     </div>
 </div>
+
+</br>
+</br>
+<h2 class="background-text">Explain here how a vote is cast!</h2>
 }
 

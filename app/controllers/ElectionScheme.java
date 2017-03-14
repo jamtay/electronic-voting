@@ -12,6 +12,7 @@ import views.html.register;
 import views.html.voter;
 import views.html.vote;
 import views.html.progress;
+import views.html.verifyvote;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -200,8 +201,7 @@ public class ElectionScheme extends Controller {
         try {
             if (voterById.isPresent()) {
                 if (Crypto.verifyVote(voterById.get(), ballotBox)) {
-                    flash("Success");
-                    return redirect(routes.ElectionScheme.tallyResults());
+                    return ok(verifyvote.render("Verify vote", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
                 } else
                     return ok("Not found");
             } else {

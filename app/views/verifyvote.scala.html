@@ -1,0 +1,18 @@
+@(page: String, isLoggedIn: Boolean, user: User)
+
+<head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
+</head>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+@main(page, isLoggedIn, user) {
+    <h2 class="background-text">Explain here how the vote is verified</h2>
+    <p>Your vote has been counted</p>
+
+    <button onclick="goBack()">Go Back</button>
+}

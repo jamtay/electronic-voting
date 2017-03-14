@@ -10,6 +10,7 @@ import play.mvc.Result;
 import views.html.index;
 import views.html.home;
 import views.html.voter;
+import views.html.vote;
 import views.html.login;
 import views.formdata.LoginFormData;
 import play.mvc.Security;
