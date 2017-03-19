@@ -1,1 +1,18 @@
-<a type="button" class="btn btn-primary" href="@routes.ElectionScheme.setup()">Start election</a>
+
+<div class="container">
+    <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please start this election</h3>
+                </div>
+
+                <div class="panel-body">
+                    @helper.form(action = routes.ElectionScheme.setup()) {
+                        <input class="btn btn-info btn-block" type="submit" value="Start Election">
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

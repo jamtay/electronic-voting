@@ -14,19 +14,31 @@
             </div>
         }
         </br>
-        <a type="button" class="btn btn-danger" href="@routes.ElectionScheme.tallyResults()">End election</a>
 
-        <div>
-            <h1 class="background-text">This is some stats regarding the election, such as: </h1>
-            <ul>
-                <li class="background-text">Number of votes so far</li>
-                <li class="background-text">Time election has been open</li>
-            </ul>
-            <p class="background-text">Could put this in a dashboard style page.  Find template online</p>
+        <div class="container">
+            <div class="row centered-form">
+                <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Press to end the election</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            @helper.form(action = routes.ElectionScheme.tallyResults()) {
+                                <input class="btn btn-info btn-block" type="submit" value="End Election">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         </br>
         </br>
-         <h2 class="background-text">Explain here how an election is setup</h2>
+
+        <img src="@routes.Assets.at("images/setupElection.png")" class="img-responsive pull-left">
+        <img src="@routes.Assets.at("images/setupElection.png")" class="img-responsive pull-right">
+
     } else {
 
         <h2 class="background-text">Explain here how a vote is cast!</h2>

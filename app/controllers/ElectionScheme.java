@@ -187,7 +187,6 @@ public class ElectionScheme extends Controller {
         }
     }
 
-    // TODO: Clean this UI
     @Security.Authenticated(Secured.class)
     public static Result verifyVote() {
         if (Secured.getUserInfo(ctx()).getType().equals("admin")) {
