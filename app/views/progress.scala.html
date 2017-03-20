@@ -3,7 +3,6 @@
 @main(page, isLoggedIn, user) {
     <head>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-        <script src="@routes.Assets.at("javascripts/loading.js")"></script>
     </head>
 
     @if(user.getType() == "admin") {
@@ -13,7 +12,7 @@
                 <strong>Success!</strong> @flash.get("success")
             </div>
         }
-        </br>
+        <br></br>
 
         <div class="container">
             <div class="row centered-form">
@@ -33,20 +32,23 @@
             </div>
         </div>
 
-        </br>
-        </br>
+        <br></br>
+        <br></br>
 
-        <img src="@routes.Assets.at("images/setupElection.png")" class="img-responsive pull-left">
-        <img src="@routes.Assets.at("images/setupElection.png")" class="img-responsive pull-right">
+        <img src="@routes.Assets.at("images/FlowDiagram.png")" class="img-responsive">
+        <br></br>
+        <img src="@routes.Assets.at("images/ElectionSetup.png")" class="img-responsive">
 
     } else {
 
-        <h2 class="background-text">Explain here how a vote is cast!</h2>
-        </br>
-        </br>
-            <div class="loader pull-left"></div>
-            <h1 class="background-text">Election in progress</h1>
-            <h3 class="background-text">Waiting for election to end</h3>
+
+    <div class="loader pull-left"></div>
+    <h1 class="background-text">Election in progress</h1>
+    <h3 class="background-text">Waiting for election to end</h3>
+    <br></br>
+    <img src="@routes.Assets.at("images/FlowDiagram.png")" class="img-responsive">
+    <br></br>
+    <img src="@routes.Assets.at("images/VoteCast.png")" class="img-responsive">
     }
 
 }

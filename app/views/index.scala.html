@@ -5,6 +5,18 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
     </head>
 
+    @if(flash.containsKey("error")) {
+        <div class="alert alert-danger"
+            <strong>Error!</strong> @flash.get("error")
+        </div>
+    }
+
+    @if(flash.containsKey("logout")) {
+        <div class="alert alert-warning"
+            <strong></strong> @flash.get("logout")
+        </div>
+    }
+
    <div class="container">
      <div class="row">
        <div class="col-sm-10 col-sm-offset-1">
@@ -12,16 +24,7 @@
             <p class="background-text">This is an example home screen</p>
        </div>
      </div>
-       @if(flash.containsKey("error")) {
-            <div class="alert alert-danger"
-                <strong>Error!</strong> @flash.get("error")
-            </div>
-       }
-
-       @if(flash.containsKey("logout")) {
-            <div class="alert alert-warning"
-                <strong></strong> @flash.get("logout")
-            </div>
-       }
    </div>
+    <br></br>
+    <img src="@routes.Assets.at("images/FlowDiagram.png")" class="img-responsive">
 }

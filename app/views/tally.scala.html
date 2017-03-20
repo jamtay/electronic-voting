@@ -8,13 +8,47 @@
     <h3 class="background-text">The tally for 0 is @tally1</h3>
     <h3 class="background-text">The tally for 1 is @tally2</h3>
 
-    </br>
-    </br>
-    <h2 class="background-text">Explain here how the tally is made!</h2>
-
+    <br></br>
     @if(user.getType() == "admin") {
-        <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.restartElection()">Start new election</a>
+        <div class="container">
+            <div class="row centered-form">
+                <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Press to start new election</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            @helper.form(action = routes.ElectionScheme.restartElection()) {
+                                <input class="btn btn-info btn-block" type="submit" value="Start New Election">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     } else {
-        <a type="button" class="btn btn-primary" href="@routes.ElectionScheme.verifyVote()">Verify vote</a>
+        <div class="container">
+            <div class="row centered-form">
+                <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Press to verify vote</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            @helper.form(action = routes.ElectionScheme.verifyVote()) {
+                                <input class="btn btn-info btn-block" type="submit" value="Verify Vote">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
+    <br></br>
+
+    <img src="@routes.Assets.at("images/FlowDiagram.png")" class="img-responsive">
+    <br></br>
+    <img src="@routes.Assets.at("images/TallyVote.png")" class="img-responsive">
 }
