@@ -1,9 +1,6 @@
 @(page: String, isLoggedIn: Boolean, user: User)
 
 @main(page, isLoggedIn, user) {
-    <head>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/register.css")">
-    </head>
 
     @if(flash.containsKey("error")) {
         <div class="alert alert-danger"
@@ -27,4 +24,5 @@
    </div>
     <br></br>
     <img src="@routes.Assets.at("images/FlowDiagram.png")" class="img-responsive">
+    <br></br>
 }
