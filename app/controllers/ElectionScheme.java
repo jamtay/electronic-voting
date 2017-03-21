@@ -9,7 +9,6 @@ import views.html.tally;
 import views.html.index;
 import views.html.pending;
 import views.html.register;
-import views.html.voter;
 import views.html.vote;
 import views.html.progress;
 import views.html.verifyvote;

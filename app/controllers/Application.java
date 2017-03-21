@@ -8,8 +8,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
-import views.html.home;
-import views.html.voter;
+import views.html.admin;
 import views.html.vote;
 import views.html.login;
 import views.formdata.LoginFormData;
@@ -130,7 +129,6 @@ public class Application extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public static Result home() {
-    Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
-    return ok(home.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+    return ok(admin.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
   }
 }
