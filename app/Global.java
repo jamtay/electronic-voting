@@ -9,10 +9,10 @@ public class Global extends GlobalSettings {
    */
   public void onStart(Application app) {
     UserDatabase.addUserInfo("John Smith", "smith@example.com", "password", "admin");
-    UserDatabase.addUserInfo("James Taylor", "james@james.com", "password", "voter");
-    UserDatabase.addUserInfo("James Taylor2", "james@james.com2", "password", "voter");
-    UserDatabase.addUserInfo("James Taylor3", "james@james.com3", "password", "voter");
-    UserDatabase.addUserInfo("James Taylor4", "james@james.com4", "password", "voter");
-    UserDatabase.addUserInfo("James Taylor5", "james@james.com", "password", "voter");
+    UserDatabase.addUserInfo("James Taylor", "james@example.com", "password", "voter");
+    UserDatabase.addUserInfo("James Taylor2", "2james@example.com", "password", "voter");
+    UserDatabase.addUserInfo("James Taylor3", "3james@example.com", "password", "voter");
+    UserDatabase.addUserInfo("James Taylor4", "4james@example.com", "password", "voter");
+    UserDatabase.addUserInfo("James Taylor5", "5james@example.com", "password", "voter");
   }
 }
