@@ -56,6 +56,9 @@ public class Application extends Controller {
     }
   }
 
+  /**
+   * Direct the user to correct page, when they have logged in
+   */
   private static Result directUser() {
     User user = Secured.getUserInfo(ctx());
     if (user.getType().equals("admin")) {
@@ -65,6 +68,9 @@ public class Application extends Controller {
     }
   }
 
+  /**
+   * Direct the user to the correct page if they are an admin user
+   */
   private static Result directAdminUser() {
     Optional<Election> possibleElection = ElectionScheme.getElection();
     if (possibleElection.isPresent()) {
@@ -78,6 +84,9 @@ public class Application extends Controller {
     }
   }
 
+  /**
+   * Direct the user to the correct page if they are a voter user
+   */
   private static Result directVoter() {
     Optional<Election> possibleElection = ElectionScheme.getElection();
     ElectionAdmin electionAdmin = ElectionScheme.getElectionAdmin();

@@ -4,6 +4,7 @@ import models.Ballot;
 import models.BulletinBoard;
 
 public class BallotBox {
+    //Bulletinboards to store users votes for each candidate
     private BulletinBoard bulletinBoard1, bulletinBoard2;
 
     public BallotBox() {

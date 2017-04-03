@@ -19,6 +19,10 @@ public class ElectionAdmin {
         this.registeredVoters = new ArrayList<>();
     }
 
+    /**
+     * Setup the election including all entities of the election
+     * @return an election with entities ready for voting
+     */
     public Optional<Election> setup() {
         BigInteger generator = new BigInteger("2");
         Random secureRandom = new SecureRandom();

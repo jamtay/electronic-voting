@@ -17,6 +17,7 @@ public class KeyGenerator {
         return new KeyPair(privateKey, publicKey);
     }
 
+    // Generate encryption keys
     public KeyPair eKeyGen(Election election) {
         BigInteger privateKey = new BigInteger(64, election.getSecureRandom());
         BigInteger publicKey = election.getGenerator().modPow(privateKey, election.getPrime());
@@ -24,6 +25,7 @@ public class KeyGenerator {
         return new KeyPair(privateKey, publicKey);
     }
 
+    // Generate signing keys
     public java.security.KeyPair sKeyGen() throws NoSuchAlgorithmException {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
         kpg.initialize(1024);
