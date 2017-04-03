@@ -8,6 +8,13 @@ import java.math.BigInteger;
 import java.util.stream.Stream;
 
 public class Trustee {
+
+    /**
+     * Tally the encrypted votes and decrypt the final tally for a candidate
+     * @param publicBulletinBoard
+     * @param election
+     * @return Decrypted election tally for a candidate
+     */
     public BigInteger tally(BulletinBoard publicBulletinBoard, Election election) {
         Stream<BigInteger> encryptedAlphas = publicBulletinBoard.getBulletinBoard().stream().map(Ballot::getAlpha);
         BigInteger alphaTally = encryptedAlphas.reduce(BigInteger.ONE, BigInteger::multiply);

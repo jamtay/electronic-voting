@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * List of candidates used in the form of voting booth
+ */
 public class Candidates {
 
     private long id;

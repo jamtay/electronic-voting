@@ -2,6 +2,9 @@ package models;
 
 import java.math.BigInteger;
 
+/**
+ * A ballot containing servers public key, encrypted vote and signature of user's id
+ */
 public class Ballot {
     private BigInteger alpha;
     private BigInteger beta;
