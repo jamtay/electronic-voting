@@ -1,0 +1,36 @@
+
+@(page: String, isLoggedIn: Boolean, user: User, voteForm: Form[Vote], candidates: List[String])
+@import helper._
+
+@main(page, isLoggedIn, user) {
+
+    <head>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/vote.css")">
+    </head>
+
+    @if(flash.containsKey("success")) {
+        <div class="alert alert-success"
+            <strong>Success</strong> @flash.get("success")
+        </div>
+    }
+
+    @if(flash.containsKey("error")) {
+        <div class="alert alert-danger"
+            <strong>Error!</strong> @flash.get("error")
+        </div>
+    }
+    <br></br>
+
+    <div class="container">
+        <div class="well">
+            @form(routes.ElectionScheme.postVote(), 'class -> "form-horizontal") {
+                @fieldset(voteForm, candidates)
+            }
+        </div>
+    </div>
+
+    <br></br>
+    <img src="@routes.Assets.at("images/VoterReg.jpeg")" class="img-responsive">
+    <br></br>
+}
+

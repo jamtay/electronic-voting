@@ -1,6 +1,59 @@
 @(page: String, isLoggedIn: Boolean, user: User, tally1: String, tally2: String)
 
 @main(page, isLoggedIn, user) {
-    <h3>The tally for 0 is @tally1</h3>
-    <h3>The tally for 1 is @tally2</h3>
+
+    @if(tally1 > tally2) {
+        <h3 class="background-text">Candidate 0 has won</h3>
+    }
+    @if(tally2 > tally1) {
+        <h3 class="background-text">Candidate 1 has won</h3>
+    }
+    @if(tally1 == tally2) {
+        <h3 class="background-text">It is a tie</h3>
+    }
+
+    <p class="background-text">The tally for 0 is @tally1</p>
+    <p class="background-text">The tally for 1 is @tally2</p>
+
+    <br></br>
+    @if(user.getType() == "admin") {
+        <div class="container">
+            <div class="row centered-form">
+                <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Press to start new election</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            @helper.form(action = routes.ElectionScheme.restartElection()) {
+                                <input class="btn btn-info btn-block" type="submit" value="Start New Election">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    } else {
+        <div class="container">
+            <div class="row centered-form">
+                <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Press to verify vote</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            @helper.form(action = routes.ElectionScheme.verifyVote()) {
+                                <input class="btn btn-info btn-block" type="submit" value="Verify Vote">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <br></br>
+    <img src="@routes.Assets.at("images/TallyVote.jpeg")" class="img-responsive">
+    <br></br>
 }

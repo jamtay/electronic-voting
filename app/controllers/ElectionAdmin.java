@@ -1,6 +1,5 @@
 package controllers;
 
-import models.BulletinBoard;
 import models.Election;
 import models.KeyPair;
 import models.Voter;
@@ -20,14 +19,18 @@ public class ElectionAdmin {
         this.registeredVoters = new ArrayList<>();
     }
 
-    public Election setup() {
+    /**
+     * Setup the election including all entities of the election
+     * @return an election with entities ready for voting
+     */
+    public Optional<Election> setup() {
         BigInteger generator = new BigInteger("2");
         Random secureRandom = new SecureRandom();
         BigInteger prime = BigInteger.probablePrime(64, secureRandom);
         KeyGenerator keyGenerator = new KeyGenerator();
-        KeyPair keyPair = keyGenerator.eKeyGen(generator, prime);
+        KeyPair keyPair = keyGenerator.serverKeyGen(generator, prime);
 
-        return new Election(prime, generator, secureRandom, keyPair);
+        return Optional.of(new Election(prime, generator, secureRandom, keyPair, true, false));
     }
 
     public void addNewVoter(Voter voter) {

@@ -11,8 +11,6 @@ public class KeyPair {
         this.publicKey = publicKey;
     }
 
-    // TODO: Secure this so its not a getter
-    // Could be done by each class has its own private key variable that needs it.  E.g voter and admin/election
     public BigInteger getPrivateKey() {
         return privateKey;
     }

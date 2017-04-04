@@ -1,0 +1,16 @@
+@(page: String, isLoggedIn: Boolean, user: User)
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    @main(page, isLoggedIn, user) {
+        <h2 class="background-text">Your vote has been counted</h2>
+
+        <button onclick="goBack()">Go Back</button>
+        <br></br>
+        <img src="@routes.Assets.at("images/VoteVerify.jpeg")" class="img-responsive">
+        <br></br>
+    }

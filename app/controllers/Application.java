@@ -1,16 +1,20 @@
 package controllers;
 
 import models.Election;
+import models.User;
 import models.Vote;
+import models.Voter;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
-import views.html.home;
-import views.html.voter;
+import views.html.admin;
+import views.html.vote;
 import views.html.login;
 import views.formdata.LoginFormData;
 import play.mvc.Security;
+
+import java.util.Optional;
 
 public class Application extends Controller {
 
@@ -45,14 +49,78 @@ public class Application extends Controller {
     if (formData.hasErrors()) {
       flash("error", "Login credentials not valid.");
       return badRequest(login.render("Login", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
-    }
-    else {
+    } else {
       session().clear();
       session("email", formData.get().email);
+      return directUser();
+    }
+  }
+
+  /**
+   * Direct the user to correct page, when they have logged in
+   */
+  private static Result directUser() {
+    User user = Secured.getUserInfo(ctx());
+    if (user.getType().equals("admin")) {
+      return directAdminUser();
+    } else {
+      return directVoter();
+    }
+  }
+
+  /**
+   * Direct the user to the correct page if they are an admin user
+   */
+  private static Result directAdminUser() {
+    Optional<Election> possibleElection = ElectionScheme.getElection();
+    if (possibleElection.isPresent()) {
+      if (possibleElection.get().isEnded()) {
+        return redirect(routes.ElectionScheme.tallyResults());
+      } else {
+        return redirect(routes.ElectionScheme.electionInProgress());
+      }
+    } else {
       return redirect(routes.Application.home());
     }
   }
-  
+
+  /**
+   * Direct the user to the correct page if they are a voter user
+   */
+  private static Result directVoter() {
+    Optional<Election> possibleElection = ElectionScheme.getElection();
+    ElectionAdmin electionAdmin = ElectionScheme.getElectionAdmin();
+    String id = session("email");
+    Optional<Voter> loggedInVoter = Optional.empty();
+    if (possibleElection.isPresent()) {
+      loggedInVoter = electionAdmin.getVoterById(id);
+    }
+
+    if (!possibleElection.isPresent()) {
+      return redirect(routes.ElectionScheme.pending());
+    } else {
+      if (possibleElection.isPresent()) {
+        if (!possibleElection.get().isEnded()) {
+            if (loggedInVoter.isPresent()) {
+              if (loggedInVoter.get().isVoted()) {
+                return redirect(routes.ElectionScheme.electionInProgress());
+              } else {
+                return redirect(routes.ElectionScheme.vote());
+              }
+            } else {
+              return redirect(routes.ElectionScheme.register());
+            }
+        } else {
+          return redirect(routes.ElectionScheme.tallyResults());
+        }
+      }
+    }
+
+    flash("error", "Something went wrong");
+    return redirect(routes.Application.index());
+
+  }
+
   /**
    * Logs out and returns user to the index page.
    * @return A redirect to the index page.
@@ -60,6 +128,7 @@ public class Application extends Controller {
   @Security.Authenticated(Secured.class)
   public static Result logout() {
     session().clear();
+    flash("logout", "You have been logged out");
     return redirect(routes.Application.index());
   }
   
@@ -69,7 +138,6 @@ public class Application extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public static Result home() {
-    Form<Vote> formData = Form.form(Vote.class).bindFromRequest();
-    return ok(home.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+    return ok(admin.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
   }
 }

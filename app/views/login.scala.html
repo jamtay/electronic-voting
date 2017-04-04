@@ -3,6 +3,7 @@
 @import bootstrap3._
 
 @main(page, isLoggedIn, user) {
+
    <div class="container">
      @loginform(routes.Application.postLogin(), loginForm("email"), loginForm("password"))
    </div>
