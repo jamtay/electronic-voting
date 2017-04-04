@@ -6,7 +6,7 @@ Enter the follwoing commands to the terminal to install homebrew and then sbt
 
 ## Instructions
 1. Clone repository `git clone https://github.com/jamtay/electronic-voting.git`
-2. Enter `cd electronic voting` in the terminal
+2. Enter `cd electronic-voting` in the terminal
 2. From the terminal enter `sbt clean run`
 3. Wait for `"(Server started, use Ctrl+D to stop and go back to the console...)"` to appear in the terminal window
 4. In your browser navigate to [localhost:9000](http://localhost:9000)
@@ -20,7 +20,7 @@ This may require restarting the server by `sbt clean run` and navigating to [loc
 
 ## Instructions
 1. Clone repository `git clone https://github.com/jamtay/electronic-voting.git`
-2. Enter `cd electronic voting` in the terminal
+2. Enter `cd electronic-voting` in the terminal
 2. From the terminal enter `sbt clean run`
 3. Wait for `"(Server started, use Ctrl+D to stop and go back to the console...)"` to appear in the terminal window
 4. In your browser navigate to [localhost:9000](http://localhost:9000)
