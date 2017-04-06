@@ -5,7 +5,8 @@ version := "1.0-SNAPSHOT"
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
-  cache
+  cache,
+  "org.postgresql" % "postgresql" % "42.0.0"
 )     
 
 play.Project.playJavaSettings
