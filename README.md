@@ -38,5 +38,13 @@ This may require restarting the server by `sbt clean run` and navigating to [loc
 4. Register and vote
 5. When you want to end the election, login as the admin again and click end election.  This will display the final election results
 
-See [Global.Java](https://github.com/jamtay/electronic-voting-protocol/blob/master/app/Global.java) for a list of login credentials
+# Login credentials
+- User Type: Admin, Email: "admin@example.com", Password: "password"
+- User Type: Voter, Email: "voter1@example.com", Password: "password"
+- User Type: Voter, Email: "voter2@example.com", Password: "password"
+- User Type: Voter, Email: "voter3@example.com", Password: "password"
+- User Type: Voter, Email: "voter4@example.com", Password: "password"
+- User Type: Voter, Email: "voter5@example.com", Password: "password"
+
+Also see [Global.Java](https://github.com/jamtay/electronic-voting-protocol/blob/master/app/Global.java) for a list of login credentials
 
