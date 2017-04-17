@@ -27,6 +27,9 @@ This may require restarting the server by `sbt clean run` and navigating to [loc
 
 This may require restarting the server by `sbt clean run` and navigating to [localhost:9000](http://localhost:9000) again
 
+# Using the Heroku deployment
+1. Navigate to [https://electronic-voting-protocol.herokuapp.com](https://electronic-voting-protocol.herokuapp.com)
+2. Follow the instructions on how to start an election, listed below.
 
 # How to start an election
 1. Login as an admin
@@ -35,4 +38,5 @@ This may require restarting the server by `sbt clean run` and navigating to [loc
 4. Register and vote
 5. When you want to end the election, login as the admin again and click end election.  This will display the final election results
 
-See `Global.Java` for a list of login credentials
+See [Global.Java](https://github.com/jamtay/electronic-voting-protocol/blob/master/app/Global.java) for a list of login credentials
+
