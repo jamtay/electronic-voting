@@ -166,10 +166,10 @@ public class ElectionScheme extends Controller {
                     Ballot ballot = vote("1", voter);
                     Ballot negativeBallot = vote("0", voter);
 
-                    if (votersChoice.candidates.equals("Candidate0")) {
+                    if (votersChoice.candidates.equals("Joe Bloggs")) {
                         ballotBox.appendBB1(ballot);
                         ballotBox.appendBB2(negativeBallot);
-                    } else if (votersChoice.candidates.equals("Candidate1")){
+                    } else if (votersChoice.candidates.equals("Jane Doe")){
                         ballotBox.appendBB2(ballot);
                         ballotBox.appendBB1(negativeBallot);
                     } else {
@@ -178,7 +178,6 @@ public class ElectionScheme extends Controller {
                     }
                     voter.setVoted(true);
                 } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | UnsupportedEncodingException e) {
-                    // This should never happen
                     flash("error", "invalid vote");
                     return badRequest(views.html.vote.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData, Candidates.getCandidateNames()));
                 }

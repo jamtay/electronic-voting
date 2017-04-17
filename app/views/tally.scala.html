@@ -3,17 +3,18 @@
 @main(page, isLoggedIn, user) {
 
     @if(tally1 > tally2) {
-        <h3 class="background-text">Candidate 0 has won</h3>
+        <h3 class="background-text">Joe Bloggs has won</h3>
     }
     @if(tally2 > tally1) {
-        <h3 class="background-text">Candidate 1 has won</h3>
+        <h3 class="background-text">Jane Doe has won</h3>
     }
     @if(tally1 == tally2) {
         <h3 class="background-text">It is a tie</h3>
     }
 
-    <h5 class="background-text">Candidate 0 has @tally1 votes</h5>
-    <h5 class="background-text">Candidate 1 has @tally2 votes</h5>
+    <p class="background-text">The tally for Joe Bloggs is @tally1</p>
+    <p class="background-text">The tally for Jane Doe is @tally2</p>
+
     <br></br>
     @if(user.getType() == "admin") {
         <div class="container">
