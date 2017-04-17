@@ -15,15 +15,6 @@ import java.util.Optional;
 
 public class Application extends Controller {
 
-
-  public static Result db() {
-    int retrievals = PageRetrieval.find().all().size();
-    PageRetrieval newStamp = new PageRetrieval();
-    newStamp.save();
-    String output = String.valueOf(retrievals);
-    return ok(output);
-  }
-
   /**
    * Provides the E-Voting home page.
    * @return The index page.
