@@ -34,7 +34,7 @@ public class Candidates {
     }
 
     public static List<String> getCandidateNames() {
-        String[] nameArray = {"Candidate0", "Candidate1"};
+        String[] nameArray = {"Joe Bloggs", "Jane Doe"};
         return Arrays.asList(nameArray);
     }
 
@@ -48,7 +48,7 @@ public class Candidates {
     }
 
     public static Candidates getDefaultCandidate() {
-        return findCandidates("Candidate0");
+        return findCandidates("Joe Bloggs");
     }
 
     @Override
@@ -59,8 +59,8 @@ public class Candidates {
     private static List<Candidates> allCandidates = new ArrayList<>();
 
     static {
-        allCandidates.add(new Candidates(1L, "Candidate0"));
-        allCandidates.add(new Candidates(2L, "Candidate1"));
+        allCandidates.add(new Candidates(1L, "Joe Bloggs"));
+        allCandidates.add(new Candidates(2L, "Jane Doe"));
     }
 
 

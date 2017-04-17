@@ -1,9 +1,6 @@
 package controllers;
 
-import models.Election;
-import models.User;
-import models.Vote;
-import models.Voter;
+import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;

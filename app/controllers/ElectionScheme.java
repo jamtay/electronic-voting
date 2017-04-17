@@ -166,10 +166,10 @@ public class ElectionScheme extends Controller {
                     Ballot ballot = vote("1", voter);
                     Ballot negativeBallot = vote("0", voter);
 
-                    if (votersChoice.candidates.equals("Candidate0")) {
+                    if (votersChoice.candidates.equals("Joe Bloggs")) {
                         ballotBox.appendBB1(ballot);
                         ballotBox.appendBB2(negativeBallot);
-                    } else if (votersChoice.candidates.equals("Candidate1")){
+                    } else if (votersChoice.candidates.equals("Jane Doe")){
                         ballotBox.appendBB2(ballot);
                         ballotBox.appendBB1(negativeBallot);
                     } else {
@@ -178,7 +178,6 @@ public class ElectionScheme extends Controller {
                     }
                     voter.setVoted(true);
                 } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | UnsupportedEncodingException e) {
-                    // This should never happen
                     flash("error", "invalid vote");
                     return badRequest(views.html.vote.render("Voting Booth", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData, Candidates.getCandidateNames()));
                 }
@@ -210,9 +209,15 @@ public class ElectionScheme extends Controller {
             Election currentElection = election.get();
             BigInteger tally1 = trustee.tally(bulletinBoard1, currentElection);
             BigInteger tally2 = trustee.tally(bulletinBoard2, currentElection);
+
+            // Calculate the tallies from 2^m
+            // Safe to cast to int values as number of votes will always be an integer
+            int candidate1Tally = (int) (Math.log(tally1.doubleValue()) / Math.log(2));
+            int candidate2Tally = (int) (Math.log(tally2.doubleValue()) / Math.log(2));
+
             currentElection.setEnded(true);
-            String displayValue1 = String.valueOf(tally1);
-            String displayValue2 = String.valueOf(tally2);
+            String displayValue1 = String.valueOf(candidate1Tally);
+            String displayValue2 = String.valueOf(candidate2Tally);
             return ok(tally.render("Tally", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), displayValue1, displayValue2));
         }
     }
