@@ -210,9 +210,15 @@ public class ElectionScheme extends Controller {
             Election currentElection = election.get();
             BigInteger tally1 = trustee.tally(bulletinBoard1, currentElection);
             BigInteger tally2 = trustee.tally(bulletinBoard2, currentElection);
+
+            // Calculate the tallies from 2^m
+            // Safe to cast to int values as number of votes will always be an integer
+            int candidate1Tally = (int) (Math.log(tally1.doubleValue()) / Math.log(2));
+            int candidate2Tally = (int) (Math.log(tally2.doubleValue()) / Math.log(2));
+
             currentElection.setEnded(true);
-            String displayValue1 = String.valueOf(tally1);
-            String displayValue2 = String.valueOf(tally2);
+            String displayValue1 = String.valueOf(candidate1Tally);
+            String displayValue2 = String.valueOf(candidate2Tally);
             return ok(tally.render("Tally", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), displayValue1, displayValue2));
         }
     }
