@@ -1,3 +1,7 @@
+# Electronic voting protocol 
+
+A simulated electronic voiting protocol with built in user guide for Uni dissertation
+
 # Mac setup
 ## Prerequisites
 Enter the follwoing commands to the terminal to install homebrew and then sbt
